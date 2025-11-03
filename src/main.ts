@@ -1,8 +1,5 @@
 import './style.css'
 import { createWorker } from 'tesseract.js'
-import typescriptLogo from './typescript.svg'
-import viteLogo from '/vite.svg'
-import { setupCounter } from './counter.ts'
 
 const fileEl = document.querySelector<HTMLInputElement>('input[type=file]')
 const outputEl = document.querySelector<HTMLOutputElement>('output')
