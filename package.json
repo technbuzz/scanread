@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "tsc && vite build --base=/dist",
+    "build": "tsc && vite build --base=/scanread/",
     "preview": "vite preview"
   },
   "devDependencies": {
