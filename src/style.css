@@ -17,3 +17,7 @@ output img {
   max-width: 100%;
 }
 
+button {
+  font-size: 1.5rem;
+    padding: 0.25em 0.5em;
+}

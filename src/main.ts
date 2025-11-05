@@ -1,11 +1,15 @@
 import './style.css'
 import { createWorker } from 'tesseract.js'
 
-const fileEl = document.querySelector<HTMLInputElement>('input[type=file]')
+const fileEl = document.querySelectorAll<HTMLInputElement>('input[type=file]')
 const outputEl = document.querySelector<HTMLOutputElement>('output')
 let fileToScan: File
 
-fileEl?.addEventListener('change', (event) => {
+fileEl.forEach(el => {
+  el.addEventListener('change', processFile)
+})
+
+function processFile(event: Event) {
   const eventTarget = (event.target as HTMLInputElement).files!
   for (const file of eventTarget) {
     console.log(file)
@@ -24,7 +28,7 @@ fileEl?.addEventListener('change', (event) => {
     }
     reader.readAsDataURL(file)
   }
-})
+}
 
 let textToRead !: string
 const scanEl = document.querySelector<HTMLButtonElement>('.scan')
