@@ -1,0 +1,44 @@
+name: Android CI Debug Build (NPM)
+
+on:
+  push:
+    branches:
+      - droid  # Pipeline runs only on pushes to the 'droid' branch
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: ⚙️ Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: 🛠️ Setup Node.js and NPM Cache
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: ☕ Setup Java (Required for Android build tools)
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17' # Android requires Java 17
+
+      - name: 📦 Install Dependencies (using npm ci)
+        # 'npm ci' is used instead of 'npm install' in CI environments for speed and reliability.
+        run: npm ci
+
+      - name: 🔗 Sync Capacitor Web Assets
+        # The 'npx' command is the direct replacement for 'pnpm exec'
+        run: npx cap sync android
+        
+      - name: 🏗️ Run Android Debug Build (Unsigned APK)
+        # Native build step is always run via Gradle
+        run: cd android && ./gradlew assembleDebug
+        
+      - name: ⬆️ Upload Debug APK Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: android-debug-build
+          # The path where Gradle places the final unsigned debug APK
+          path: android/app/build/outputs/apk/debug/app-debug.apk
